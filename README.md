@@ -9,11 +9,10 @@ when prices drop below a threshold, and store historical data in
 Google Sheets.
 
 ## Features 
-- 🛒 **Web Scraping**: Extracts product data from Amazon, BestBuy,
-and other e-commerce sites
+- 🛒 **Web Scraping**: Extracts product data from e-commerce sites
 
 - 🔔 **Smart Alerts**: Email/Slack notifications when prices drop below
-set threshold
+given threshold
 
 - 📊 **Data Export**: Automatically logs price history to Google Sheets
 
@@ -79,7 +78,7 @@ decision making
 3. The system will:
 
     - Check prices every hour (configurable)
-    - Send alerts when prices drop below your threshold
+    - Send alerts when prices drop below given threshold
     - Log all data to Google Sheets
 
 ### File Structure
@@ -101,8 +100,7 @@ decision making
 - **Change check interval**: Modify the time.sleep() value in main.py
 - **Add more retailers**: Extend scraper.py with additional parsing logic
 - **Customize alerts**: Edit message templates in notifier.py
-- **Add more notification channels**: Implement additional services like
-Discord or SMS
+- **Add more notification channels**: Implement additional services like Discord or SMS
 
 ### Troubleshooting 
 #### Common Issues 
@@ -140,6 +138,6 @@ information.
 ### Contact
 For inquiries or support:
 
-- Email: your.email@example.com
+- Email: sabbirmd31948@gmail.com
 
 - Project Link: https://github.com/Sabbir1039/PricePulseTracker
