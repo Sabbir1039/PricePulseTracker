@@ -64,3 +64,4 @@ logs/
 *.temp
 
 *.exe
+tracker_log.txt
