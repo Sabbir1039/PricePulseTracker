@@ -56,6 +56,7 @@ def track_product(url, threshold_price):
             except ValueError:
                 log_message(f"Failed to convert price to float: {current_data['price']}")
                 return False, None
+            
             current_data['date'] = datetime.now().isoformat()
             history = products[url]["history"]
         
@@ -76,12 +77,31 @@ def track_product(url, threshold_price):
     except Exception as e:
         log_message(f"Error tracking {url}: {str(e)}")
         return False, None
+    
+    
+def track_all_products():
+    products = load_tracked_products()
+
+    if not products:
+        print("No products to track. Add a product first.")
+        return
+    
+    for url, info in products.items():
+        threshold = info['threshold']
+        alert_triggered, product_data  = track_product(url, threshold)
+
+        if product_data:
+            print(f"Checked: {product_data['title']}")
+            print(f"  🏷 Current Price: ${product_data['price']}")
+            print(f"  🎯 Threshold:     ${threshold}")
+            if alert_triggered:
+                print(f"  🚨 ALERT: Price dropped below threshold!\n")
+        else:
+            print(f"❌ Failed to fetch data for {url}\n")
 
 if __name__ == "__main__":
-    product_url = "https://www.amazon.com/Nintendo-Switch-OLED-Model-White-Joy/dp/B098RKWHHZ/ref=sr_1_2?dib=eyJ2IjoiMSJ9.SnJwwaQgWAAz2ipQdcQ--ww0mUwm9OAXePgwWaeU0beIFh8x7x3Ztf6rw5W-PIowGJUhbZ22Tt1wRmzEGDdO0zvQkuBHzrzFlfF37ed4Foa_QA13u9ETMBZOgPu4gFm8r77xf-7L-QaoNSAw9NhY4S1vTzSVaRFjkEBxasLEy9v963b8TWmJGW-4F7csqbKuZ-NuL6O1FWVqCBwCDtyC1k_lWO77w46cUQpG5vEv9CI.LkDPeQMJVU_765kRkUMPKfSH5BeRLnFjlNttYheNDV4&dib_tag=se&keywords=nintendo%2Bswitch%2B2&qid=1752433182&sr=8-2&th=1"
-    threshold = 400.00
-
-    price_lowered, product = track_product(product_url, threshold)
-
-    print(price_lowered)
-    print(product)
+    # product_url = ""
+    # threshold = 400.00
+    # price_lowered, product = track_product(product_url, threshold)
+    # track_all_products()
+    pass
