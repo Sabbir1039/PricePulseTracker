@@ -51,9 +51,9 @@ def scrape_e_commerce_product(url):
         driver.quit()
         print("driver closed")
 
-if __name__ == '__main__':
-    product_url = "sabbir.ecommerce.com/products?id=1/"
-    product_data = scrape_e_commerce_product(product_url)
+# if __name__ == '__main__':
+#     product_url = "sabbir.ecommerce.com/products?id=1/"
+#     product_data = scrape_e_commerce_product(product_url)
     
-    for key, value in product_data.items():
-        print(f"{key} : {value}")
+#     for key, value in product_data.items():
+#         print(f"{key} : {value}")
