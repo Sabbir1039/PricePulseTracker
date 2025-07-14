@@ -1,6 +1,6 @@
 # PricePulseTracker - E-commerce Price Monitoring System
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Selenium](https://img.shields.io/badge/Selenium-43B02A?logo=Selenium&logoColor=white)
+![Selenium](https://img.shields.io/badge/Selenium-43B02A?style=for-the-badge&logo=Selenium&logoColor=white)
 ![BeautifulSoup](https://img.shields.io/badge/BeautifulSoup-4-green?style=for-the-badge)
 
 An automated system to track e-commerce product prices, receive alerts
