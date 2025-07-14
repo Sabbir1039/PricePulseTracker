@@ -1,4 +1,5 @@
 from tracker import track_all_products, track_product
+from export_to_csv import export_to_csv
 
 if __name__ == "__main__":
     """
@@ -15,3 +16,7 @@ if __name__ == "__main__":
     print(alert)
     print(product)
     print("*****")
+
+    TRACKED_PRODUCT = "tracked_products.json"
+    SAVED_FILE = "exported_products_data.csv"
+    export_to_csv(TRACKED_PRODUCT, SAVED_FILE)
