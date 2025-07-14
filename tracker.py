@@ -2,7 +2,6 @@ import json
 import os
 from scrapper import scrape_e_commerce_product
 from datetime import datetime
-from notifier import send_email_alert
 
 TRACKED_FILE = "tracked_products.json"
 LOG_FILE = "tracker_log.txt"
@@ -22,6 +21,20 @@ def log_message(message):
         f.write(f"{datetime.now().isoformat()} | {message}\n")
 
 def is_duplicate_entry(history, new_entry):
+    """
+    Checks whether the new price entry is a duplicate of the last recorded entry.
+
+    A duplicate is defined as:
+      - The last entry in `history` has the same price as `new_entry`, AND
+      - Both entries were recorded on the same day (date matches, regardless of time)
+
+    Parameters:
+        history (list): A list of previous entries (each entry is a dict with 'price' and 'date' keys).
+        new_entry (dict): A dictionary representing the new entry to be checked.
+
+    Returns:
+        bool: True if the new entry is a duplicate of the last one (same price and date), False otherwise.
+    """
     if not history:
         return False
     last_entry = history[-1]
@@ -32,12 +45,25 @@ def is_duplicate_entry(history, new_entry):
 
 def track_product(url, threshold_price):
     """
-    This function tracks a single product:
-    1.It checks if the product is already tracked.
-    2.Scrapes the current price.
-    3.Saves the data (with date) in tracked_products.json.
-    4.Checks if the price has dropped below the user-defined threshold price.
-    5.Returns whether an alert should be triggered, and the product data.
+    Tracks a product's price from the given URL and determines if an alert should be triggered.
+
+    The function performs the following steps:
+        1. Loads previously tracked product data from a JSON file.
+        2. Initializes tracking if the product is new.
+        3. Scrapes the latest product data (title, price).
+        4. Cleans and converts the price to float.
+        5. Records the price and date if it's not a duplicate of the last entry.
+        6. Saves the updated tracking history.
+        7. Compares the price with the user-defined threshold to decide if an alert should be sent.
+
+    Parameters:
+        url (str): The URL of the product to be tracked.
+        threshold_price (float): The price below which an alert should be triggered.
+
+    Returns:
+        tuple:
+            - (bool): True if the current price is less than or equal to the threshold, otherwise False.
+            - (dict or None): The latest product data (title, price, date) if available, else None.
     """
     
     products = load_tracked_products()
@@ -68,7 +94,6 @@ def track_product(url, threshold_price):
                 log_message(f"Tracked: {current_data['title']} | ${current_data['price']}")
 
             if current_data['price'] <= threshold_price:
-                send_email_alert(current_data, threshold_price)
                 return True, current_data
             else:
                 return False, current_data
@@ -82,6 +107,27 @@ def track_product(url, threshold_price):
     
     
 def track_all_products():
+    """
+    Tracks all products currently being monitored and prints their latest price status.
+
+    This function:
+        1. Loads the list of all tracked products from storage.
+        2. Iterates over each product URL and:
+            - Scrapes current price and title.
+            - Logs the latest price and threshold.
+            - Checks if the current price is below the defined threshold.
+            - Prints an alert if the price has dropped.
+
+    Prints status messages for each product, including:
+        - Product title
+        - Current price
+        - Threshold price
+        - Alert message (if applicable)
+        - Error message if scraping fails
+
+    Returns:
+        None
+    """
     products = load_tracked_products()
 
     if not products:
@@ -94,16 +140,16 @@ def track_all_products():
 
         if product_data:
             print(f"Checked: {product_data['title']}")
-            print(f"  🏷 Current Price: ${product_data['price']}")
-            print(f"  🎯 Threshold:     ${threshold}")
+            print(f"Current Price: ${product_data['price']}")
+            print(f"Threshold:     ${threshold}")
             if alert_triggered:
-                print(f"  🚨 ALERT: Price dropped below threshold!\n")
+                print(f"ALERT: Price dropped below threshold!\n")
         else:
-            print(f"❌ Failed to fetch data for {url}\n")
+            print(f"Failed to fetch data for {url}\n")
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # product_url = ""
     # threshold = 400.00
     # price_lowered, product = track_product(product_url, threshold)
     # track_all_products()
-    pass
+    # pass
