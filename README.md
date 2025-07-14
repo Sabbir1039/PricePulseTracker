@@ -1,24 +1,17 @@
 # PricePulseTracker - E-commerce Price Monitoring System
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Selenium](https://img.shields.io/badge/Selenium-43B02A?logo=Selenium&logoColor=white)
 ![BeautifulSoup](https://img.shields.io/badge/BeautifulSoup-4-green?style=for-the-badge)
-![Google Sheets](https://img.shields.io/badge/Google%20Sheets-34A853?style=for-the-badge&logo=google-sheets&logoColor=white)
-![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)
 
 An automated system to track e-commerce product prices, receive alerts
 when prices drop below a threshold, and store historical data in
-Google Sheets.
+json and csv files.
 
 ## Features 
 - 🛒 **Web Scraping**: Extracts product data from e-commerce sites
-
-- 🔔 **Smart Alerts**: Email/Slack notifications when prices drop below
+- 🔔 **Smart Alerts**: Email notifications when prices drop below
 given threshold
-
-- 📊 **Data Export**: Automatically logs price history to Google Sheets
-
-- ⏰ **Scheduled Monitoring**: Runs continuously with customizable check
-intervals
-
+- 📊 **Data Export**: Automatically logs price history to json and csv files
 - 📈 **Price Trend Analysis**: Tracks historical price data for better
 decision making
 
@@ -26,8 +19,8 @@ decision making
 ### Prerequisites 
 
 - Python 3.6+
-- Google account (for Sheets API)
-- Email account (for alerts) or Slack workspace
+- selenium 4.3+
+- Email account (for alerts)
 
 ### Installation 
 1. Clone the repository:
@@ -46,18 +39,13 @@ decision making
 3. Set up environment variables:
 
     - Create a .env file in the root directory
-    - Add your credentials:
+    - Add credentials:
         ```
         EMAIL_USER=your_email@gmail.com 
         EMAIL_PASSWORD=your_app_password
         RECEIVER_EMAIL=alert_receiver@email.com
         SLACK_TOKEN=xoxb-your-slack-token
         ```
-
-4. Set up Google Sheets API:
-
-    - Follow Google\'s guide to enable the API
-    - Download the credentials JSON file and place it in the project root as credentials.json
 
 ### Usage 
 1. Configure products to track in **main.py**:
@@ -77,7 +65,6 @@ decision making
 
 3. The system will:
 
-    - Check prices every hour (configurable)
     - Send alerts when prices drop below given threshold
     - Log all data to Google Sheets
 
@@ -88,9 +75,9 @@ decision making
     ├── scraper.py            # Web scraping functionality
     ├── tracker.py            # Price tracking and comparison
     ├── notifier.py           # Email/Slack notification system
-    ├── sheets_integration.py # Google Sheets API integration
+    ├── export_to_csv.py      # Convert product data json to csv
     ├── requirements.txt      # Python dependencies
-    ├── .env.example          # Environment variables template
+    ├── .env                  # Environment variables template
     ├── tracked_products.json # Product data storage
     └── README.md             # This documentation
 
@@ -111,12 +98,7 @@ decision making
     - Add delays between requests
     - Consider using proxies
 
-2. Google Sheets permission errors:
-
-    - Ensure your service account has edit permissions
-    - Share your spreadsheet with the service account email
-
-3. Email not sending:
+2. Email not sending:
 
     - Verify app passwords are enabled for your email
     - Check spam folders
