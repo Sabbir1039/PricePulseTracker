@@ -11,10 +11,6 @@ def send_email_alert(product_data, threshold):
     sender_email = os.getenv("EMAIL_USER")
     receiver_email = os.getenv("RECEIVER_EMAIL")
     password = os.getenv("EMAIL_PASSWORD")
-
-    print(sender_email)
-    print(receiver_email)
-    print(password)
     
     # Create message
     message = MIMEMultipart()
