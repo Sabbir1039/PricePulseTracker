@@ -2,6 +2,7 @@ import json
 import os
 from scrapper import scrape_e_commerce_product
 from datetime import datetime
+from notifier import send_email_alert
 
 TRACKED_FILE = "tracked_products.json"
 LOG_FILE = "tracker_log.txt"
@@ -67,6 +68,7 @@ def track_product(url, threshold_price):
                 log_message(f"Tracked: {current_data['title']} | ${current_data['price']}")
 
             if current_data['price'] <= threshold_price:
+                send_email_alert(current_data, threshold_price)
                 return True, current_data
             else:
                 return False, current_data
