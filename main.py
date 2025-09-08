@@ -61,9 +61,18 @@ def run_scheduler(products: dict):
     schedule.every().hour.do(job, products, logger)
 
     # Keep the scheduler running
-    while True:
-        schedule.run_pending()
-        time.sleep(30)  # check every 30s if a job is due
+    try:
+        while True:
+            schedule.run_pending()
+            time.sleep(30)  # check every 30s if a job is due
+    except KeyboardInterrupt:
+        logger.warning(f"Script closed by keyboard interruption!")
+    except Exception as e:
+        logger.error(f"Unexpected error occurred: {e}")
+        
+    finally:
+        logger.info("Cleaning up scheduler...")
+        schedule.clear()
 
 
 if __name__ == "__main__":
