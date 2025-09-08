@@ -1,14 +1,14 @@
-from src.tracker import track_all_products, track_product
+from src.tracker import track_product
+from src.utils.config import ensure_directories
 from src.utils.export_to_csv import export_to_csv
+from src.utils.config import setup_logging, TRACKED_FILE, TRACKED_CSV_FILE
 from src.notifier import send_email_alert
 
 if __name__ == "__main__":
-    """
-    Here i can use 2 methods
-    1. track_all_products (for previous multiple products)
-    2. track_product (for given new product)
-    Also can add timer for track product price
-    """
+
+    ensure_directories()
+    logger  = setup_logging()
+
     # Track given products using track_product()
     test_products = {
         "product1": {
@@ -25,8 +25,8 @@ if __name__ == "__main__":
         should_alert, product_data = track_product(url=info["url"], threshold_price=info["threshold"])
 
         if should_alert:
-            send_email_alert(product_data, info["threshold"])
+            # send_email_alert(product_data, info["threshold"])
+            logger.info(f"Title: {product_data["title"]}")
 
-    # TRACKED_PRODUCT = "tracked_products.json"
-    # SAVED_FILE = "exported_products_data.csv"
-    # export_to_csv(TRACKED_PRODUCT, SAVED_FILE)
+    export_to_csv(TRACKED_FILE, TRACKED_CSV_FILE)
+    logger.info(f"Tracked josn file saved as csv file.")

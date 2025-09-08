@@ -20,10 +20,7 @@ def scrape_e_commerce_product(url: str) -> ProductData:
     options = Options()
     service = Service(ChromeDriverManager().install())
     options.add_argument("--headless=new")           # Headless mode (Chrome 109+)
-    options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
-    options.add_argument("--no-sandbox")             # Recommended for headless
-    options.add_argument("--disable-dev-shm-usage")  # Prevents shared memory issues
 
     driver = webdriver.Chrome(options=options, service=service)
 

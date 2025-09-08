@@ -22,6 +22,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 DATA_DIR = os.path.join(BASE_DIR, "data")
+TRACKED_FILE = os.path.join(DATA_DIR, "tracked_products.json")
+TRACKED_CSV_FILE = os.path.join(DATA_DIR, "tracked_products_CSV.csv")
 
 def ensure_directories():
     """Create required directories if they don't exist."""

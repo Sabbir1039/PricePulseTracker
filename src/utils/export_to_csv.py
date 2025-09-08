@@ -11,12 +11,13 @@ def export_to_csv(json_file, csv_file):
             rows.append({
                 "url": url,
                 "title": entry.get("title", ""),
-                "price": entry.get("price", ""),
+                "threshold price": info.get("threshold", ""),
+                "current price": entry.get("price", ""),
                 "date": entry.get("date", "")
             })
 
     with open(csv_file, "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["url", "title", "price", "date"])
+        writer = csv.DictWriter(f, fieldnames=["url", "title", "threshold price", "current price", "date"])
         writer.writeheader()
         writer.writerows(rows)
 
