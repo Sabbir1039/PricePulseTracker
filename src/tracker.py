@@ -59,8 +59,20 @@ def is_duplicate_entry(history: list, new_entry: dict) -> bool:
         return False
     last_entry = history[-1]
     same_price = last_entry['price'] == new_entry['price']
-    same_date = last_entry['date'].split("T")[0] == datetime.now().date().isoformat()
-    return same_price and same_date
+
+    # Parse timestamps
+    last_dt = datetime.fromisoformat(last_entry['date'])
+    new_dt = datetime.fromisoformat(new_entry['date'])
+
+    # Check same year, month, day, and hour
+    same_hour = (
+        last_dt.year == new_dt.year
+        and last_dt.month == new_dt.month
+        and last_dt.day == new_dt.day
+        and last_dt.hour == new_dt.hour
+    )
+
+    return same_price and same_hour
 
 def clean_price(raw_price: str) -> float | None:
     """
